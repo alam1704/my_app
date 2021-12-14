@@ -2,8 +2,16 @@
 
 ## Installation guide
 
-- Pull repository from https://github.com/alam1704/my_app.git
-- Create and Activate Virtual Environment
+- Clone repository from https://github.com/alam1704/my_app.git
+- Create Virtual Environment
+```
+virtualenv -p python3 yourVenv
+```
+- Activate the Virtual Environment
+```
+source yourVenv/bin/activate
+```
+(Note: to 'deactivate', change activate to 'deactivate')
 - Run the following command to install all packages from requirements.txt (depending on your OS, you may need to use the alternative command) 
 ```
 pip install -r requirements.txt
