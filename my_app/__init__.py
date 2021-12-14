@@ -1,6 +1,48 @@
-from flask import Flask 
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
+import os
+
+(
+    db_user, 
+    db_pass, 
+    db_name, 
+    db_domain
+) = (os.environ.get(item) for item in [
+    "DB_USER", 
+    "DB_PASS", 
+    "DB_NAME", 
+    "DB_DOMAIN"
+    ]
+)
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{db_user}:{db_pass}@{db_domain}/{db_name}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+
+db = SQLAlchemy(app)
+
+class Pharmacy(db.Model):
+    __tablename__ = "pharmacies"
+    pharmacy_id = db.Column(db.Integer, primary_key=True)
+    pharmacy_name = db.Column(db.String(100), unique=True, nullable=False)
+    pharmacy_email = db.Column(db.String(100), unique=True, nullable=False)
+    pharmacy_phone = db.Column(db.Integer, unique=True, nullable=False)
+
+    def __init__(self,pharmacy_name):
+        self.pharmacy_name=pharmacy_name
+
+    @property
+    def serialize(self):
+        return {
+            "pharmacy_id": self.pharmacy_id,
+            "pharmacy_name": self.pharmacy_name,
+            "pharmacy_email": self.pharmacy_email,
+            "pharmacy_phone": self.pharmacy_phone
+        }
+
+db.create_all()
+
 
 @app.route('/home/')
 def home_page():
@@ -14,23 +56,42 @@ def pharmacy_login():
 def staff_login():
     return "This page will display the staff log in page"
 
-@app.route('/pharmacies/')
+@app.route('/pharmacies/', methods=["GET"])
 def pharmacies():
-    return "This page will display a list of all pharmacies for pharmacies logged in"
+    pharmacies = Pharmacy.query.all()
+    return jsonify([pharmacy.serialize for pharmacy in pharmacies])
 
-@app.route('/pharmacies/<int:pharmacy_id>/')
-def pharmacy():
-    return "This page will display details of the pharmacy including name, email, phone and address for pharmacies logged in"
+@app.route('/pharmacies/', methods=["POST"])
+def create_pharmacy():
+    new_pharmacy = Pharmacy(request.json['pharmacy_name'])
+    db.session.add(new_pharmacy)
+    db.session.commit()
+    return jsonify(new_pharmacy.serialize)
 
-@app.route('/pharmacies/<int:pharmacy_id>/edit/')
-def edit_pharmacy():
-    return "This page will allow details of the pharmacy including name, email, phone and address to be edited by pharmacies logged in. Should also be able to remove here."
+@app.route('/pharmacies/<int:pharmacy_id>/', methods=["GET"])
+def pharmacy(id):
+    pharmacy = Pharmacy.query.get_or_404(id)
+    return jsonify(pharmacy.serialize)
 
-@app.route('/staff/')
+@app.route('/pharmacies/<int:pharmacy_id>/edit/', methods=["PUT","PATCH"])
+def edit_pharmacy(id):
+    pharmacy = Pharmacy.query.filter_by(pharmacy_id=id)
+    pharmacy.update(dict(pharmacy_name = request.json["pharmacy_name"]))
+    db.session.commit()
+    return jsonify(pharmacy.first().serialize)
+
+@app.route('/pharmacies/<int:pharmacy_id>/edit/', methods=["DELETE"])
+def remove_pharmacy(id):
+    pharmacy = Pharmacy.query.get_or_404(id)
+    db.session.delete(pharmacy)
+    db.session.commit()
+    return jsonify(pharmacy.serialize)
+
+@app.route('/staff/', methods=["GET"])
 def staff():
     return "This page will display a list of all staff for pharmacies logged in"
 
-@app.route('/staff/<int:staff_id>/')
+@app.route('/staff/<int:staff_id>/', methods=["GET"])
 def staff_member():
     return """This page will show the specific staff_member's vaccination certificate. Will also return information on a specific staff - particularly their name, dob, isadmin status.
     Will also contain contact details and emergency contact details. All three sections will have different forms.
