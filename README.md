@@ -4,7 +4,14 @@
 
 - Pull repository from https://github.com/alam1704/my_app.git
 - Create and Activate Virtual Environment
-- Install all packages from requirements.txt 
+- Run the following command to install all packages from requirements.txt (depending on your OS, you may need to use the alternative command) 
+```
+pip install -r requirements.txt
+```
+```
+pip3 install -r requirements.txt
+```
+
 
 ## Purpose of My App
 
