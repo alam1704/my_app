@@ -15,23 +15,34 @@ import os
     ]
 )
 
+# Creating the Flask app object
 app = Flask(__name__)
 
+# Configuring our app:
+# Tells the app where the database is
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{db_user}:{db_pass}@{db_domain}/{db_name}"
+# This setting prevents Flask from shouting warnings at us
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
+# Creating the database object - allowing us to use the ORM
 db = SQLAlchemy(app)
 
+# Pharmacy table in the database
 class Pharmacy(db.Model):
+    # specifies what the name of table should be 
     __tablename__ = "pharmacies"
+
+    # specifies what the columns of the table should be
     pharmacy_id = db.Column(db.Integer, primary_key=True)
     pharmacy_name = db.Column(db.String(100), unique=True, nullable=False)
     pharmacy_email = db.Column(db.String(100), unique=True, nullable=False)
     pharmacy_phone = db.Column(db.Integer, unique=True, nullable=False)
 
+    # Creates a python object to insert as a new row
     def __init__(self,pharmacy_name):
         self.pharmacy_name=pharmacy_name
 
+    # Serialize property lets us convert our Pharmacy object into JSON easily.
     @property
     def serialize(self):
         return {
@@ -41,6 +52,7 @@ class Pharmacy(db.Model):
             "pharmacy_phone": self.pharmacy_phone
         }
 
+# Create any database tables that don't already exist
 db.create_all()
 
 
