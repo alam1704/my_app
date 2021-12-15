@@ -18,7 +18,7 @@ def staff_login():
     return "This page will display the staff log in page"
 
 @pharmacies.route('/pharmacies/', methods=["GET"])
-def pharmacies():
+def get_pharmacies():
     pharmacies = Pharmacy.query.all()
     return jsonify(pharmacies_schema.dump(pharmacies))
 
@@ -30,7 +30,7 @@ def create_pharmacy():
     return jsonify(pharmacy_schema.dump(new_pharmacy))
 
 @pharmacies.route('/pharmacies/<int:pharmacy_id>/', methods=["GET"])
-def pharmacy(id):
+def get_pharmacy(id):
     pharmacy = Pharmacy.query.get_or_404(id)
     return jsonify(pharmacy_schema.dump(pharmacy))
 
@@ -51,11 +51,11 @@ def remove_pharmacy(id):
     return jsonify(pharmacy_schema.dump(pharmacy))
 
 @pharmacies.route('/staff/', methods=["GET"])
-def staff():
+def get_staff():
     return "This page will display a list of all staff for pharmacies logged in"
 
 @pharmacies.route('/staff/<int:staff_id>/', methods=["GET"])
-def staff_member():
+def get_staff_member():
     return """This page will show the specific staff_member's vaccination certificate. Will also return information on a specific staff - particularly their name, dob, isadmin status.
     Will also contain contact details and emergency contact details. All three sections will have different forms.
     Can only be access by admin or the particular staff for pharmacies and/or staff logged in"""
