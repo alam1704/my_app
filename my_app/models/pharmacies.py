@@ -14,12 +14,3 @@ class Pharmacy(db.Model):
     def __init__(self,pharmacy_name):
         self.pharmacy_name=pharmacy_name
 
-    # Serialize property lets us convert our Pharmacy object into JSON easily.
-    @property
-    def serialize(self):
-        return {
-            "pharmacy_id": self.pharmacy_id,
-            "pharmacy_name": self.pharmacy_name,
-            "pharmacy_email": self.pharmacy_email,
-            "pharmacy_phone": self.pharmacy_phone
-        }

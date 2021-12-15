@@ -1,10 +1,11 @@
 from flask import Blueprint, jsonify, request
 from main import db
 from models.pharmacies import Pharmacy
+from schemas.pharmacy_schema import pharmacies_schema, pharmacy_schema
 
 pharmacies = Blueprint('pharmacies', __name__)
 
-@pharmacies.route('/home/')
+@pharmacies.route('/home/', methods=["GET"])
 def home_page():
     return "This page will ask the user if they are a pharmacy(admin) or a staff. After selecting which one they are, they'll be directed to either log in pages"
 
@@ -19,33 +20,35 @@ def staff_login():
 @pharmacies.route('/pharmacies/', methods=["GET"])
 def pharmacies():
     pharmacies = Pharmacy.query.all()
-    return jsonify([pharmacy.serialize for pharmacy in pharmacies])
+    return jsonify(pharmacies_schema.dump(pharmacies))
 
 @pharmacies.route('/pharmacies/', methods=["POST"])
 def create_pharmacy():
-    new_pharmacy = Pharmacy(request.json['pharmacy_name'])
+    new_pharmacy = pharmacy_schema.load(request.json)
     db.session.add(new_pharmacy)
     db.session.commit()
-    return jsonify(new_pharmacy.serialize)
+    return jsonify(pharmacy_schema.dump(new_pharmacy))
 
 @pharmacies.route('/pharmacies/<int:pharmacy_id>/', methods=["GET"])
 def pharmacy(id):
     pharmacy = Pharmacy.query.get_or_404(id)
-    return jsonify(pharmacy.serialize)
+    return jsonify(pharmacy_schema.dump(pharmacy))
 
 @pharmacies.route('/pharmacies/<int:pharmacy_id>/edit/', methods=["PUT","PATCH"])
 def edit_pharmacy(id):
     pharmacy = Pharmacy.query.filter_by(pharmacy_id=id)
-    pharmacy.update(dict(pharmacy_name = request.json["pharmacy_name"]))
-    db.session.commit()
-    return jsonify(pharmacy.first().serialize)
+    updated_fields = pharmacy_schema.dump(request.json)
+    if updated_fields:
+        pharmacy.update(updated_fields)
+        db.session.commit()
+    return jsonify(pharmacy_schema.dump(pharmacy.first()))
 
 @pharmacies.route('/pharmacies/<int:pharmacy_id>/edit/', methods=["DELETE"])
 def remove_pharmacy(id):
     pharmacy = Pharmacy.query.get_or_404(id)
     db.session.delete(pharmacy)
     db.session.commit()
-    return jsonify(pharmacy.serialize)
+    return jsonify(pharmacy_schema.dump(pharmacy))
 
 @pharmacies.route('/staff/', methods=["GET"])
 def staff():
