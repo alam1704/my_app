@@ -60,8 +60,12 @@ def get_staff_member():
     Will also contain contact details and emergency contact details. All three sections will have different forms.
     Can only be access by admin or the particular staff for pharmacies and/or staff logged in"""
 
-@pharmacies.route('/staff/<int:staff_id>/edit/')
+@pharmacies.route('/staff/<int:staff_id>/edit/', methods=["PUT", "PATCH"])
 def edit_staff_member():
     return """This page will allow the staff_member to add/remove vaccination certificate icon. Will also be able to edit information on a specific staff - particularly their name, dob, isadmin status.
     Will also contain contact details and emergency contact details. All three sections will have different forms.
     Can only be access by admin or the particular staff for pharmacies and/or staff logged in. Should also be able to remove here"""
+
+@pharmacies.route('/staff/<int:staff_id>/edit/', methods=["DELETE"])
+def remove_staff_member(id):
+    return f'This will remove staff member with specific {id}'
