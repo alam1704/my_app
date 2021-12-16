@@ -15,14 +15,23 @@ class Staff(UserMixin, db.Model):
         nullable=False
     )
 
-    # Add other attributes here
+    staff_email = db.Column(
+        db.String(120),
+        nullable=False
+    )
+
+    staff_password = db.Column(
+        db.String(200),
+        nullable=False
+    )
 
     def get_id(self):
         return self.staff_id
+    
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
     contactdetails = db.relationship("ContactDetails", back_populates="staff", uselist=False)
-
-
 
 class ContactDetails(db.Model):
     __tablename__ = "contactdetails"
