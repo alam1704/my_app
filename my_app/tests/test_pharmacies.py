@@ -25,10 +25,10 @@ class TestPharmacies(unittest.TestCase):
         
         # Now to perform tests on the response
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(data, list)
+        self.assertIn(b'<h1>Pharmacies Index</h1>', response.data)
     
     def test_create_bad_pharmacy(self):
-        response = self.client.post("/pharmacies/", json={"pharmacy_name": ""})
+        response = self.client.post("/pharmacies/", data={"pharmacy_name": ""})
         self.assertEqual(response.status_code, 400)
 
 

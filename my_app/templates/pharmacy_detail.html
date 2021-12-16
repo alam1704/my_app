@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content%}        
+    
+    <h2> {{ page_data.pharmacy.pharmacy_name }} </h2>
+    <p> Pharmacy ID: {{ page_data.pharmacy.pharmacy_id }}</p>
+    <p> Email: {{ page_data.pharmacy.pharmacy_email }}</p>
+    <p> Phone Number: {{ page_data.pharmacy.pharmacy_phone }}</p>
+
+    <br><br>
+    
+    <h3>Update Pharmacy Info:</h3>
+    <form action='/pharmacies/{{ page_data.pharmacy.pharmacy_id }}/', method ="POST">
+        <input type="text" name="pharmacy_name" value="{{ page_data.pharmacy.pharmacy_name }}"/>
+        <input type="text" name="pharmacy_email" value="{{ page_data.pharmacy.pharmacy_email }}"/>
+        <input type="number" name="pharmacy_phone" value="{{ page_data.pharmacy.pharmacy_phone }}"/>
+        <button>Update</button>
+    </form>
+
+    <br> </br>
+    
+    <form action = "/pharmacies/{{ page_data.pharmacy.pharmacy_id }}/delete/", method = "POST">
+        <button>Delete Pharmacy</button>
+    </form>
+
+{% endblock %}

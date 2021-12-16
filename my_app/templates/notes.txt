@@ -1,0 +1,8 @@
+A delimiter is basically just an indicator of a boundary in our code. There, there are three different types:
+
+The {% statement %} delimiter, which indicates that we are going to insert some kind of Python-like code
+
+The {{ expression }} delimiter, which indicates that we are going to insert some value, and
+
+The {# comment #} delimiter, which has no effect on the behaviour of the webpage - it lets us add comments. 
+
