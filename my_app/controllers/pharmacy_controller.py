@@ -15,11 +15,7 @@ def home_page():
 
 @pharmacies.route('/pharmacy_login/')
 def pharmacy_login():
-    return "This page will display the pharmacy log in page"
-
-@pharmacies.route('/staff_login/')
-def staff_login():
-    return "This page will display the staff log in page"
+    return "This page will display the pharmacy log in page" 
 
 @pharmacies.route('/pharmacies/', methods=["GET"])
 def get_pharmacies():
@@ -69,22 +65,4 @@ def remove_pharmacy(id):
     db.session.commit()
     return redirect(url_for("pharmacies.get_pharmacies"))
 
-@pharmacies.route('/staff/', methods=["GET"])
-def get_staff():
-    return "This page will display a list of all staff for pharmacies logged in"
 
-@pharmacies.route('/staff/<int:id>/', methods=["GET"])
-def get_staff_member():
-    return """This page will show the specific staff_member's vaccination certificate. Will also return information on a specific staff - particularly their name, dob, isadmin status.
-    Will also contain contact details and emergency contact details. All three sections will have different forms.
-    Can only be access by admin or the particular staff for pharmacies and/or staff logged in"""
-
-@pharmacies.route('/staff/<int:id>/edit/', methods=["PUT", "PATCH"])
-def edit_staff_member():
-    return """This page will allow the staff_member to add/remove vaccination certificate icon. Will also be able to edit information on a specific staff - particularly their name, dob, isadmin status.
-    Will also contain contact details and emergency contact details. All three sections will have different forms.
-    Can only be access by admin or the particular staff for pharmacies and/or staff logged in. Should also be able to remove here"""
-
-@pharmacies.route('/staff/<int:id>/edit/', methods=["DELETE"])
-def remove_staff_member(id):
-    return f'This will remove staff member with specific {id}'

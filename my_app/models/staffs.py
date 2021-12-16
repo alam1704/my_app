@@ -15,14 +15,19 @@ class Staff(UserMixin, db.Model):
         nullable=False
     )
 
-    staff_email = db.Column(
-        db.String(120),
+    staff_dob = db.Column(
+        db.Integer,
         nullable=False
     )
 
     staff_password = db.Column(
         db.String(200),
         nullable=False
+    )
+    staff_is_admin = db.Column(
+        db.Boolean(),
+        nullable=False,
+        server_default="False"
     )
 
     def get_id(self):

@@ -1,14 +1,13 @@
-<!--Log in page-->
 {% extends "base.html" %}
 {% block content %}
     <div>
-        <h2>Enter Details</h2>
+        <h2> Enter Details </h2>
         <div>
-            <form action="/staffs/login/" method="POST">
+            <form action = "/staffs/signup/" method = "POST">
                 <input type="text" name="staff_name" placeholder="Name...">
-                <input type="text" name="staff_dob" placeholder="DDMMYYYY...">
+                <input type="text" name="staff_dob" placeholder="DDMMYYYY">
                 <input type="text" name="staff_password" placeholder="Password...">
-                <button>Login</button>
+                <button> Sign Up </button>
             </form>
         </div>
     </div>

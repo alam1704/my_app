@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <div>
+        <form action="/staffs/{{ page_data.staff.staff_id }}/edit/" method="POST">
+            <label for="staff_name"> Name: </label>
+            <input type="text" name="staff_name" value = "{{ current_user.staff_name }}">
+            <label for="staff_dob"> DOB: </label>
+            <input type="text" name="staff_dob" value = "{{ current_user.staff_dob }}">
+            <button> Update </button>
+        </form>
+    </div>
+{% endblock %}
