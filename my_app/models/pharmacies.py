@@ -8,9 +8,11 @@ class Pharmacy(db.Model):
     pharmacy_id = db.Column(db.Integer, primary_key=True)
     pharmacy_name = db.Column(db.String(100), unique=True, nullable=False)
     pharmacy_email = db.Column(db.String(100), unique=True, nullable=False)
-    pharmacy_phone = db.Column(db.Integer, unique=True, nullable=False)
+    pharmacy_phone = db.Column(db.Integer, nullable=False)
 
     # Creates a python object to insert as a new row
-    def __init__(self,pharmacy_name):
+    def __init__(self,pharmacy_name, pharmacy_email, pharmacy_phone):
         self.pharmacy_name=pharmacy_name
+        self.pharmacy_email=pharmacy_email
+        self.pharmacy_phone=pharmacy_phone
 
