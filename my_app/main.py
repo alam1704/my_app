@@ -1,10 +1,9 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-from marshmallow.exceptions import ValidationError
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import os
+from marshmallow.exceptions import ValidationError
 
 db = SQLAlchemy()
 ma = Marshmallow()
