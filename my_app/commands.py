@@ -21,10 +21,15 @@ def drop_db():
 def seed_db():
     from models.pharmacies import Pharmacy
     from faker import Faker
-    faker = Faker()
+    fake = Faker()
 
-    for i in range(20):
-        pharmacy = Pharmacy(faker.catch_phrase(), faker.company_email(), randint(0, 1))
+    for i in range(5):
+        pharmacy = Pharmacy(
+            pharmacy_name = fake.name(), 
+            pharmacy_email = fake.email(),
+            pharmacy_phone = fake.msisdn()[3:10],
+            pharmacy_password = fake.text()[6:10]
+        )
         db.session.add(pharmacy)
     
     db.session.commit()
