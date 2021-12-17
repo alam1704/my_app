@@ -8,7 +8,7 @@ from flask_login import login_required, current_user
 
 staffs = Blueprint('staffs', __name__)
 
-@staffs.route('/home/', methods=["GET"])
+@staffs.route('/', methods=["GET"])
 def home_page():
     data = {
         "page_title": "Home"
