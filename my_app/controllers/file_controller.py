@@ -14,6 +14,6 @@ def edit_file(staff_id):
         image = request.files["image"]
         if Path(image.filename).suffix != ".pdf":
             return abort(400, description="Invalid file type")
-        image.save(f"/home/alexl/Project/my_app/my_app/static/{staff.image_filename}")
+        image.save(f"my_app/static/{staff.image_filename}")
         return redirect(url_for("staffs.get_staff_member", staff_id=staff_id))
     return abort(400, description="No File")
