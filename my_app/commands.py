@@ -20,6 +20,7 @@ def drop_db():
 @db_commands.cli.command("seed")
 def seed_db():
     from models.pharmacies import Pharmacy
+    from models.staffs import Staff
     from faker import Faker
     fake = Faker()
 
@@ -33,6 +34,21 @@ def seed_db():
         db.session.add(pharmacy)
     
     db.session.commit()
+
+    # get pharmacy from database
+    pharmacies = Pharmacy.query.all()
+
+    for pharmacy in pharmacies:
+        # get 5 staff members
+        for i in range(5):
+            staff = Staff(
+                staff_name = fake.name(),
+                staff_email = fake.email(),
+                staff_dob = fake.date_of_birth()
+            )
+            db.session.add(staff)
+    db.session.commit()
+    
     print("Tables seeded")
 
 @db_commands.cli.command("reset")
