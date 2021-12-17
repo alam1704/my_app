@@ -71,6 +71,6 @@ class Certificates(db.Model):
     staff_id = db.Column(
         db.Integer,
         db.ForeignKey("staff.staff_id"),
-        nullable=False
+        unique=True
     )
 
