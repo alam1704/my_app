@@ -24,7 +24,7 @@ def get_staffs():
     }
     return render_template("staffs_index.html", page_data=data)
 
-@staffs.route('/staffs/<int:id>/', methods=["GET", "POST"])
+@staffs.route('/staffs/account/', methods=["GET", "POST"])
 @login_required
 def get_staff_member():
     if request.method == "GET":
@@ -59,7 +59,7 @@ def staffs_signup():
     data = {
         "page_title": "Staffs SignUp"
     }
-    if request.method == ["GET"]:
+    if request.method == "GET":
         return render_template("signup.html", page_data=data)
 
     new_staff = staff_schema.load(request.form)
@@ -74,11 +74,11 @@ def staffs_login():
         "page_title":"Staffs LogIn"
     }
 
-    if request.method == ["GET"]:
+    if request.method == "GET":
         return render_template("login.html", page_data=data)
 
     staff = Staff.query.filter_by(staff_name=request.form["staff_name"]).first()
-    if staff and staff.check_password(password=request.form["password"]):
+    if staff and staff.check_password(password=request.form["staff_password"]):
         login_user(staff)
         return redirect(url_for('staffs.get_staff_member'))
     
@@ -86,6 +86,6 @@ def staffs_login():
 
 @staffs.route("/staffs/logout/", methods = ["POST"])
 @login_required
-def staff_logout():
+def staffs_logout():
     logout_user()
     return redirect(url_for("staffs.staffs_login"))

@@ -16,7 +16,7 @@ class Staff(UserMixin, db.Model):
     )
 
     staff_dob = db.Column(
-        db.Integer,
+        db.String(20),
         nullable=False
     )
 
@@ -34,7 +34,7 @@ class Staff(UserMixin, db.Model):
         return self.staff_id
     
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.staff_password, password)
 
     contactdetails = db.relationship("ContactDetails", back_populates="staff", uselist=False)
 
