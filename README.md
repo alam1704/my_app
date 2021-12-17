@@ -106,6 +106,8 @@ My application will use a Basic Authentication mechanism to protect user privacy
 
 Within the controller, if a user has signed in successfully, a user instance will return based on the session information in the user's browser cookie. However, the page will be redirected to the login page for any staff trying to access pages that require authorisation. By applying the ```@login_required``` decorator under the staff_details views, the application will only display the staff's details including any certificates they have uploaded to the staff currently logged on, thereby protecting the privacy of all staff. Otherwise, staff will be redirected to the log in page also.
 
+Furthermore, to enhance the security of the web application, authorization has been implemented using relations. The authorization featuree is implemented so that when a Pharmacy creates a Staff, only that Pharmacy has the authority to accesss and edit/delete the Staff. this prevents multiple Pharmacy Owners from accessing Staff records unnecessarily and providing a more cohesive and robust management system of confidential Staff information.
+
 ## Professional, Ethical and Legal Obligations
 
 More recently, there has been news on the internet of a "Log4j" vulnerability affecting some of the world's most popular applications and services to attack. The bug is of a vulnerability in an open source Apache logging library and attackers have exploited the flaw to conduct malicious activities. Some of these include installing cryptominers on vulnerable systems, stealing system credentials and stealing data, according to wired.com. In relation to my own web application, there are many similarities to our professional, ethical and legal obligation that can be applied to the above.

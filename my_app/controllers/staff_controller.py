@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request, render_template, redirect, url_for, current_app
+from flask import Blueprint, jsonify, request, render_template, redirect, url_for, current_app, abort
+from flask_migrate import current
 from werkzeug.utils import redirect
 from main import db
 from models.staffs import Staff
@@ -41,6 +42,8 @@ def create_staff():
 @login_required
 def get_staff(staff_id):
     staff = Staff.query.get_or_404(staff_id)
+    if current_user.pharmacy_id != staff.creator_id:
+        return abort(403, "You do not have permission to view this staff")
     data = {
         "page_title" : "Staff Detail",
         "staff" : staff_schema.dump(staff)
@@ -48,8 +51,12 @@ def get_staff(staff_id):
     return render_template("staff_detail.html", page_data=data)
 
 @staffs.route('/staffs/<int:staff_id>/', methods=["POST"])
+@login_required
 def edit_staff(staff_id):
     staff = Staff.query.filter_by(staff_id=staff_id)
+
+    if current_user.pharmacy_id != staff.first().creator_id:
+        return abort(403, "You do not have permission to edit this staff")
     updated_fields = staff_schema.dump(request.form)
     print(updated_fields)
     if updated_fields:
@@ -62,9 +69,12 @@ def edit_staff(staff_id):
     
     return render_template("staff_detail.html", page_data=data)
 
-@staffs.route('/staffs/<int:id>/delete/', methods=["POST"])
+@staffs.route('/staffs/<int:staff_id>/delete/', methods=["POST"])
+@login_required
 def remove_staff(staff_id):
     staff = Staff.query.get_or_404(staff_id)
+    if current_user.pharmacy_id != staff.creator_id:
+        return abort(403, "You do not have permission to delete this staff")
     db.session.delete(staff)
     db.session.commit()
     return redirect(url_for("staffs.get_staffs"))
