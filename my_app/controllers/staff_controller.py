@@ -29,8 +29,10 @@ def get_staffs():
     return render_template("staffs_index.html", page_data=data)
 
 @staffs.route('/staffs/', methods=["POST"])
+@login_required
 def create_staff():
     new_staff = staff_schema.load(request.form)
+    new_staff.creator = current_user
     db.session.add(new_staff)
     db.session.commit()
     return redirect(url_for("staffs.get_staffs"))

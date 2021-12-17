@@ -7,6 +7,10 @@
     <p> Staff DOB: {{ page_data.staff.staff_dob }}</p>
 
     <br><br>
+
+    <p>
+        Creator: {{ page_data.staff.creator.pharmacy_name }} ({{ page_data.staff.creator.pharmacy_email }})
+    </p>
     
     <h3>Update Staff Info:</h3>
     <form action='/staffs/{{ page_data.staff.staff_id }}/', method ="POST">

@@ -35,6 +35,11 @@ class Pharmacy(UserMixin, db.Model):
         server_default="False"
     )
 
+    staffs = db.relationship(
+        'Staff',
+        backref="creator"
+    )
+
     def get_id(self):
         return self.pharmacy_id
  

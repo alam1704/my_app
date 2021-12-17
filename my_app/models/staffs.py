@@ -9,12 +9,10 @@ class Staff(db.Model):
     staff_name = db.Column(db.String(100), unique=True, nullable=False)
     staff_email = db.Column(db.String(100), unique=True, nullable=False)
     staff_dob = db.Column(db.String(100), nullable=False)
-
-    # Creates a python object to insert as a new row
-    # def __init__(self,staff_name, staff_email, staff_dob):
-    #     self.staff_name=staff_name
-    #     self.staff_email=staff_email
-    #     self.staff_phone=staff_dob
+    creator_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pharmacy.pharmacy_id")
+    )
 
     contactdetails = db.relationship("ContactDetails", back_populates="staff", uselist=False)
     certificates = db.relationship("Certificates", backref="staff", lazy=True)
