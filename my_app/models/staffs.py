@@ -37,6 +37,7 @@ class Staff(UserMixin, db.Model):
         return check_password_hash(self.staff_password, password)
 
     contactdetails = db.relationship("ContactDetails", back_populates="staff", uselist=False)
+    certificates = db.relationship("Certificates", backref="staff", lazy=True)
 
     @property
     def image_filename(self):
@@ -76,5 +77,23 @@ class EContactDetails(db.Model):
     )
 
     contactdetails = db.relationship("ContactDetails", back_populates="econtactdetails")
+
+class Certificates(db.Model):
+    __tablename__ = "certificates"
+
+    certificate_id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    # add other attributes for certificates here
+
+    staff_id = db.Column(
+        db.Integer,
+        db.ForeignKey("staff.staff_id"),
+        nullable=False
+    )
+
+
 
 
