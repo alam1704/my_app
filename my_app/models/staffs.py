@@ -55,7 +55,8 @@ class ContactDetails(db.Model):
 
     staff_id = db.Column(
         db.Integer,
-        db.ForeignKey("staff.staff_id")
+        db.ForeignKey("staff.staff_id"),
+        unique=True
     )
 
     staff = db.relationship("Staff", back_populates="contactdetails")
@@ -73,7 +74,8 @@ class EContactDetails(db.Model):
 
     contactdetails_id = db.Column(
         db.Integer,
-        db.ForeignKey("contactdetails.contactdetails_id")
+        db.ForeignKey("contactdetails.contactdetails_id"),
+        unique=True
     )
 
     contactdetails = db.relationship("ContactDetails", back_populates="econtactdetails")
@@ -93,7 +95,6 @@ class Certificates(db.Model):
         db.ForeignKey("staff.staff_id"),
         nullable=False
     )
-
 
 
 
