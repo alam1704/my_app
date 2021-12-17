@@ -1,6 +1,3 @@
-from enum import auto
-from flask.json import dump
-from sqlalchemy.orm import load_only
 from main import ma
 from models.pharmacies import Pharmacy
 from marshmallow_sqlalchemy import auto_field
@@ -9,8 +6,8 @@ from werkzeug.security import generate_password_hash
 
 class PharmacySchema(ma.SQLAlchemyAutoSchema):
     pharmacy_id = auto_field(dump_only=True)
-    pharmacy_name = auto_field(required=True, validate=validate.Length(min=1))
-    pharmacy_email = auto_field(required=True, validate = validate.Email())
+    pharmacy_name = auto_field(required=True, validate=validate.Length(min=1, max=50))
+    pharmacy_email = auto_field(required=True, validate=validate.Email())
     pharmacy_phone = auto_field(required=False, validate=validate.Length(min=1))
     pharmacy_password = fields.Method(
         required=True,
