@@ -1,68 +1,91 @@
-from flask import Blueprint, jsonify, request, render_template, redirect, url_for
-from werkzeug.utils import redirect
-from main import db
+from flask import Blueprint, request, render_template, redirect, url_for, abort, flash
+from main import db, lm
 from models.pharmacies import Pharmacy
-from schemas.pharmacy_schema import pharmacies_schema, pharmacy_schema
+from flask_login import login_user, logout_user, login_required, current_user
+from marshmallow import ValidationError
+from schemas.pharmacy_schema import pharmacies_schema, pharmacy_schema, pharmacy_update_schema
+
+@lm.user_loader
+def load_user(pharmacy):
+    return Pharmacy.query.get(pharmacy)
+
+@lm.unauthorized_handler
+def unauthorized():
+    return redirect("/login/")
 
 pharmacies = Blueprint('pharmacies', __name__)
-
-@pharmacies.route('/home/', methods=["GET"])
-def home_page():
-    data = {
-        "page_title": "Home"
-    }
-    return render_template("home.html", page_data=data)
-
-@pharmacies.route('/pharmacy_login/')
-def pharmacy_login():
-    return "This page will display the pharmacy log in page" 
+# Now register this new controller by adding it into the __init__.py file
 
 @pharmacies.route('/pharmacies/', methods=["GET"])
 def get_pharmacies():
-    pharmacies = Pharmacy.query.all()
     data = {
         "page_title": "Pharmacies Index",
-        "pharmacies":pharmacies_schema.dump(pharmacies)
+        "pharmacies": pharmacies_schema.dump(Pharmacy.query.all())
     }
-    
     return render_template("pharmacies_index.html", page_data=data)
 
-@pharmacies.route('/pharmacies/', methods=["POST"])
-def create_pharmacy():
+@pharmacies.route('/pharmacies/account/', methods=["GET", "POST"])
+@login_required
+def get_pharmacy_member():
+    if request.method == "GET":
+        data = {
+            "page_title":"Your Account details"
+        }
+        return render_template("pharmacy_detail.html", page_data=data)
+    else:
+        pharmacy = Pharmacy.query.filter_by(pharmacy_id=current_user.pharmacy_id)
+        updated_fields=pharmacy_schema.dump(request.form)
+        errors = pharmacy_update_schema.validate(updated_fields)
+
+    if errors:
+        raise ValidationError(message=errors)
+    else:
+        pharmacy.update(updated_fields)
+        db.session.commit()
+        return redirect(url_for("pharmacies.get_pharmacies"))
+
+@pharmacies.route('/pharmacies/<int:id>/edit/', methods=["PUT", "PATCH"])
+def edit_pharmacy_member():
+    return """This page will allow the pharmacy_member to add/remove vaccination certificate icon. Will also be able to edit information on a specific pharmacy - particularly their name, dob, isadmin status.
+    Will also contain contact details and emergency contact details. All three sections will have different forms.
+    Can only be access by admin or the particular pharmacy for pharmacies and/or pharmacy logged in. Should also be able to remove here"""
+
+@pharmacies.route('/pharmacies/<int:id>/edit/', methods=["DELETE"])
+def remove_pharmacy_member(id):
+    return f'This will remove pharmacy member with specific {id}'
+
+@pharmacies.route("/pharmacies/signup/", methods = ["GET", "POST"])
+def pharmacies_signup():
+    data = {
+        "page_title": "Pharmacies SignUp Page"
+    }
+    if request.method == "GET":
+        return render_template("signup.html", page_data=data)
+
     new_pharmacy = pharmacy_schema.load(request.form)
     db.session.add(new_pharmacy)
     db.session.commit()
+    login_user(new_pharmacy)
     return redirect(url_for("pharmacies.get_pharmacies"))
 
-@pharmacies.route('/pharmacies/<int:id>/', methods=["GET"])
-def get_pharmacy(id):
-    pharmacy = Pharmacy.query.get_or_404(id)
+@pharmacies.route('/pharmacies/login/', methods=["GET", "POST"])
+def pharmacies_login():
     data = {
-        "page_title" : "Pharmacy Detail",
-        "pharmacy" : pharmacy_schema.dump(pharmacy)
+        "page_title":"Pharmacies LogIn page"
     }
-    return render_template("pharmacy_detail.html", page_data=data)
 
-@pharmacies.route('/pharmacies/<int:id>/', methods=["POST"])
-def edit_pharmacy(id):
-    pharmacy = Pharmacy.query.filter_by(pharmacy_id=id)
-    updated_fields = pharmacy_schema.dump(request.form)
-    print(updated_fields)
-    if updated_fields:
-        pharmacy.update(updated_fields)
-        db.session.commit()
-    data = {
-        "page_title": "Pharmacy Details",
-        "pharmacy": pharmacy_schema.dump(pharmacy.first()) 
-    }
+    if request.method == "GET":
+        return render_template("login.html", page_data=data)
+
+    pharmacy = Pharmacy.query.filter_by(pharmacy_email=request.form["pharmacy_email"]).first()
+    if pharmacy and pharmacy.check_password(password=request.form["pharmacy_password"]):
+        login_user(pharmacy)
+        return redirect(url_for('pharmacies.get_pharmacy_member'))
     
-    return render_template("pharmacy_detail.html", page_data=data)
+    abort(401, "Login Unsuccessful. Did you supply the correct username and password?")
 
-@pharmacies.route('/pharmacies/<int:id>/delete/', methods=["POST"])
-def remove_pharmacy(id):
-    pharmacy = Pharmacy.query.get_or_404(id)
-    db.session.delete(pharmacy)
-    db.session.commit()
-    return redirect(url_for("pharmacies.get_pharmacies"))
-
-
+@pharmacies.route("/pharmacies/logout/", methods = ["POST"])
+@login_required
+def pharmacies_logout():
+    logout_user()
+    return redirect(url_for("pharmacies.pharmacies_login"))

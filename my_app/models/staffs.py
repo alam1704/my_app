@@ -1,40 +1,20 @@
 from main import db
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-
-class Staff(UserMixin, db.Model):
+# Pharmacy table in the database
+class Staff(db.Model):
+    # specifies what the name of table should be 
     __tablename__ = "staff"
 
-    staff_id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
+    # specifies what the columns of the table should be
+    staff_id = db.Column(db.Integer, primary_key=True)
+    staff_name = db.Column(db.String(100), unique=True, nullable=False)
+    staff_email = db.Column(db.String(100), unique=True, nullable=False)
+    staff_dob = db.Column(db.String(100), nullable=False)
 
-    staff_name = db.Column(
-        db.String(100),
-        nullable=False
-    )
-
-    staff_dob = db.Column(
-        db.String(20),
-        nullable=False
-    )
-
-    staff_password = db.Column(
-        db.String(200),
-        nullable=False
-    )
-    staff_is_admin = db.Column(
-        db.Boolean(),
-        nullable=False,
-        server_default="False"
-    )
-
-    def get_id(self):
-        return self.staff_id
- 
-    def check_password(self, password):
-        return check_password_hash(self.staff_password, password)
+    # Creates a python object to insert as a new row
+    # def __init__(self,staff_name, staff_email, staff_dob):
+    #     self.staff_name=staff_name
+    #     self.staff_email=staff_email
+    #     self.staff_phone=staff_dob
 
     contactdetails = db.relationship("ContactDetails", back_populates="staff", uselist=False)
     certificates = db.relationship("Certificates", backref="staff", lazy=True)
@@ -95,6 +75,4 @@ class Certificates(db.Model):
         db.ForeignKey("staff.staff_id"),
         nullable=False
     )
-
-
 

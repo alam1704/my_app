@@ -1,22 +1,31 @@
 {% extends "base.html" %}
-{% block content %}
-    <div>
-        <form action="/staffs/account/" method="POST">
-            <label for="staff_name"> Name: </label>
-            <input type="text" name="staff_name" value = "{{ current_user.staff_name }}">
-            <label for="staff_dob"> DOB: </label>
-            <input type="text" name="staff_dob" value = "{{ current_user.staff_dob }}">
-            <button> Update </button>
-        </form>
+{% block content%}        
+    
+    <h2> {{ page_data.staff.staff_name }} </h2>
+    <p> Staff ID: {{ page_data.staff.staff_id }}</p>
+    <p> Staff Email: {{ page_data.staff.staff_email }}</p>
+    <p> Staff DOB: {{ page_data.staff.staff_dob }}</p>
 
-        <br/>
-        <hr/>
+    <br><br>
+    
+    <h3>Update Staff Info:</h3>
+    <form action='/staffs/{{ page_data.staff.staff_id }}/', method ="POST">
+        <input type="text" name="staff_name" value="{{ page_data.staff.staff_name }}"/>
+        <input type="text" name="staff_email" value="{{ page_data.staff.staff_email }}"/>
+        <input type="text" name="staff_dob" value="{{ page_data.staff.staff_dob }}"/>
+        <button>Update</button>
+    </form>
 
-        <h3> Update File: </h3>
-        <form action="/staffs/{{ current_user.staff_id }}/image/" method="POST" enctype = "multipart/form-data">
-            <input type="file" name="image">
-            <input type="submit">
-        </form>
+    <h3> Update File: </h3>
+    <form action="/staffs/{{ current_user.staff_id }}/image/" method="POST" enctype = "multipart/form-data">
+        <input type="file" name="image">
+        <input type="submit">
+    </form>
 
-    </div>
+    <br> </br>
+    
+    <form action = "/staffs/{{ page_data.staff.staff_id }}/delete/", method = "POST">
+        <button>Delete Staff</button>
+    </form>
+
 {% endblock %}

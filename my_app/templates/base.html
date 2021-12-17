@@ -28,13 +28,13 @@
                 <a href="/pharmacies/">Pharmacies Index</a>
                 <a href="/staffs/">Staffs Index</a>
                 {% if current_user.is_authenticated %}
-                    <a href="/staffs/account/">My Account</a>
-                    <form action="/staffs/logout/" method="POST">
+                    <a href="/pharmacies/account/">My Account</a>
+                    <form action="/pharmacies/logout/" method="POST">
                         <button>Log Out</button>
                     </form>
                 {% else %}
-                    <a href="/staffs/login/">Log In</a>
-                    <a href="/staffs/signup">Sign up</a>
+                    <a href="/pharmacies/login/">Log In</a>
+                    <a href="/pharmacies/signup">Sign up</a>
                 {% endif %}
             </nav>
         </header>

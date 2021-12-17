@@ -1,25 +1,31 @@
 {% extends "base.html" %}
-{% block content%}        
-    
-    <h2> {{ page_data.pharmacy.pharmacy_name }} </h2>
-    <p> Pharmacy ID: {{ page_data.pharmacy.pharmacy_id }}</p>
-    <p> Email: {{ page_data.pharmacy.pharmacy_email }}</p>
-    <p> Phone Number: {{ page_data.pharmacy.pharmacy_phone }}</p>
+{% block content %}
+    <div>
+        <form action="/pharmacies/account/" method="POST">
+            <label for="pharmacy_name"> Name: </label>
+            <input type="text" name="pharmacy_name" value = "{{ current_user.pharmacy_name }}">
+            <label for="pharmacy_email"> Email: </label>
+            <input type="text" name="pharmacy_email" value = "{{ current_user.pharmacy_email }}">
+            <label for="pharmacy_email"> Phone: </label>
+            <input type="text" name="pharmacy_phone" value = "{{ current_user.pharmacy_phone }}">
+            <button> Update </button>
+        </form>
 
-    <br><br>
-    
-    <h3>Update Pharmacy Info:</h3>
-    <form action='/pharmacies/{{ page_data.pharmacy.pharmacy_id }}/', method ="POST">
-        <input type="text" name="pharmacy_name" value="{{ page_data.pharmacy.pharmacy_name }}"/>
-        <input type="text" name="pharmacy_email" value="{{ page_data.pharmacy.pharmacy_email }}"/>
-        <input type="number" name="pharmacy_phone" value="{{ page_data.pharmacy.pharmacy_phone }}"/>
-        <button>Update</button>
-    </form>
+        <br/>
+        <hr/>
+        <p>
+            Pharmacy is admin: {{ current_user.is_admin }}
+        </p>
 
-    <br> </br>
-    
-    <form action = "/pharmacies/{{ page_data.pharmacy.pharmacy_id }}/delete/", method = "POST">
-        <button>Delete Pharmacy</button>
-    </form>
+        <br><br>
+        <h3>
+            Enrolled Staffs:
+        </h3>
+        <ul>
+            {% for staff in current_user.enrolled_staffs %}
+                <li><a href="/staffs/{{ staff.staff_id }}/">{{ staff.staff_name }}</a></li>
+            {% endfor %}
+        </ul>
 
+    </div>
 {% endblock %}

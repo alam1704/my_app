@@ -1,6 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
+
+    <hr/>
+
+    <div>
+        <h2>Add New Staff Here</h2>
+        <div>
+            <form action="/staffs/" method="POST">
+                <input type="text" name="staff_name" placeholder="StaffName...">
+                <input type="text" name="staff_email" placeholder="Staff Email...">
+                <input type="text" name="staff_dob" placeholder="DD/MM/YYYY...">
+                <button>Add</button>
+            </form>
+        </div>
+    </div>
+
+    <hr/>
+
     {% for staff in page_data.staffs %}
-        <li>{{ staff.staff_name }}: {{ staff.staff_dob }}</li>
+        <a href="/staffs/{{ staff.staff_id }}/">{{ staff.staff_name }}</a>
+        <br/>
     {% endfor %}
+
+    <hr/>
+
 {% endblock %}

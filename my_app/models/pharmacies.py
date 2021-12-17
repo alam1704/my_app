@@ -1,18 +1,49 @@
 from main import db
-# Pharmacy table in the database
-class Pharmacy(db.Model):
-    # specifies what the name of table should be 
-    __tablename__ = "pharmacies"
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
-    # specifies what the columns of the table should be
-    pharmacy_id = db.Column(db.Integer, primary_key=True)
-    pharmacy_name = db.Column(db.String(100), unique=True, nullable=False)
-    pharmacy_email = db.Column(db.String(100), unique=True, nullable=False)
-    pharmacy_phone = db.Column(db.Integer, nullable=False)
+class Pharmacy(UserMixin, db.Model):
+    __tablename__ = "pharmacy"
 
-    # Creates a python object to insert as a new row
-    def __init__(self,pharmacy_name, pharmacy_email, pharmacy_phone):
-        self.pharmacy_name=pharmacy_name
-        self.pharmacy_email=pharmacy_email
-        self.pharmacy_phone=pharmacy_phone
+    pharmacy_id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    pharmacy_name = db.Column(
+        db.String(100),
+        nullable=False
+    )
+    
+    pharmacy_email = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+    pharmacy_phone = db.Column(
+        db.String(20),
+        nullable=False
+    )
+    
+    pharmacy_password = db.Column(
+        db.String(200),
+        nullable=False
+    )
+    pharmacy_is_admin = db.Column(
+        db.Boolean(),
+        nullable=False,
+        server_default="False"
+    )
+
+    def get_id(self):
+        return self.pharmacy_id
+ 
+    def check_password(self, password):
+        return check_password_hash(self.pharmacy_password, password)
+
+
+
+
+
+
 

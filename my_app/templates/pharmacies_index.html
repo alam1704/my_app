@@ -1,27 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
-    <hr/>
-
-    <div>
-        <h2>Add New Pharmacy Here</h2>
-        <div>
-            <form action="/pharmacies/" method="POST">
-                <input type="text" name="pharmacy_name" placeholder="Input pharmacy name here...">
-                <input type="text" name="pharmacy_email" placeholder="Input pharmacy email here...">
-                <input type="integer" name="pharmacy_phone" placeholder="Input pharmacy phone here...">
-                <button>Add</button>
-            </form>
-        </div>
-    </div>
-
-    <hr/>
-
-    {% for pharmacy in page_data.pharmacies %}
-        <a href="/pharmacies/{{ pharmacy.pharmacy_id }}/">{{ pharmacy.pharmacy_name }}</a>
-        <br/>
+    {% for staff in page_data.staffs %}
+        <li>{{ pharmacy.pharmacy_name }}: {{ pharmacy.pharmacy_email }}</li>
     {% endfor %}
-
-    <hr/>
-
 {% endblock %}
