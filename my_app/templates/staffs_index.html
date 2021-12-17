@@ -9,7 +9,7 @@
             <form action="/staffs/" method="POST">
                 <input type="text" name="staff_name" placeholder="StaffName...">
                 <input type="text" name="staff_email" placeholder="Staff Email...">
-                <input type="text" name="staff_dob" placeholder="DD/MM/YYYY...">
+                <input type="text" name="staff_dob" placeholder="YYYY-MM-DD...">
                 <button>Add</button>
             </form>
         </div>
@@ -17,11 +17,32 @@
 
     <hr/>
 
-    {% for staff in page_data.staffs %}
-        <a href="/staffs/{{ staff.staff_id }}/">{{ staff.staff_name }}</a>
-        <br/>
-    {% endfor %}
-
+    <h2>Staff List</h2>
+    <table class="table table-striped table-boredered">
+        <thead>
+            <tr>
+                <th>Staff Name</th>
+                <th>Staff Email</th>
+                <th>Staff Date_of_Birth</th>
+            </tr>
+        </thead>
+        
+        {% for staff in page_data.staffs %}
+        <tbody>
+            <tr>
+                <td>
+                    <a href="/staffs/{{ staff.staff_id }}/">{{ staff.staff_name }}</a>
+                </td>
+                <td>
+                    {{ staff.staff_email }}
+                </td>
+                <td>
+                    {{ staff.staff_dob }}
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>    
     <hr/>
 
 {% endblock %}

@@ -5,13 +5,9 @@
     <p> Staff ID: {{ page_data.staff.staff_id }}</p>
     <p> Staff Email: {{ page_data.staff.staff_email }}</p>
     <p> Staff DOB: {{ page_data.staff.staff_dob }}</p>
-
+    <p> Creator: {{ page_data.staff.creator.pharmacy_name }} ({{ page_data.staff.creator.pharmacy_email }}) </p>
     <br><br>
 
-    <p>
-        Creator: {{ page_data.staff.creator.pharmacy_name }} ({{ page_data.staff.creator.pharmacy_email }})
-    </p>
-    
     <h3>Update Staff Info:</h3>
     <form action='/staffs/{{ page_data.staff.staff_id }}/', method ="POST">
         <input type="text" name="staff_name" value="{{ page_data.staff.staff_name }}"/>
@@ -22,7 +18,7 @@
 
     <br><br>
 
-    <a href="{{ page_data.image }}"></a> 
+    <img src="{{ page_data.image }}" style="width: 250px">
 
     <h3> Update File: </h3>
     <form action="/staffs/{{ page_data.staff.staff_id }}/image/" method="POST" enctype = "multipart/form-data">
