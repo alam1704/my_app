@@ -35,19 +35,19 @@ def create_staff():
     db.session.commit()
     return redirect(url_for("staffs.get_staffs"))
 
-@staffs.route('/staffs/<int:id>/', methods=["GET"])
+@staffs.route('/staffs/<int:staff_id>/', methods=["GET"])
 @login_required
-def get_staff(id):
-    staff = Staff.query.get_or_404(id)
+def get_staff(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
     data = {
         "page_title" : "Staff Detail",
         "staff" : staff_schema.dump(staff)
     }
     return render_template("staff_detail.html", page_data=data)
 
-@staffs.route('/staffs/<int:id>/', methods=["POST"])
-def edit_staff(id):
-    staff = Staff.query.filter_by(staff_id=id)
+@staffs.route('/staffs/<int:staff_id>/', methods=["POST"])
+def edit_staff(staff_id):
+    staff = Staff.query.filter_by(staff_id=staff_id)
     updated_fields = staff_schema.dump(request.form)
     print(updated_fields)
     if updated_fields:
@@ -61,8 +61,8 @@ def edit_staff(id):
     return render_template("staff_detail.html", page_data=data)
 
 @staffs.route('/staffs/<int:id>/delete/', methods=["POST"])
-def remove_staff(id):
-    staff = Staff.query.get_or_404(id)
+def remove_staff(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
     db.session.delete(staff)
     db.session.commit()
     return redirect(url_for("staffs.get_staffs"))

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    {% for staff in page_data.staffs %}
+    {% for pharmacy in page_data.pharmacies %}
         <li>{{ pharmacy.pharmacy_name }}: {{ pharmacy.pharmacy_email }}</li>
     {% endfor %}
 {% endblock %}
