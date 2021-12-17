@@ -32,11 +32,15 @@ class Staff(UserMixin, db.Model):
 
     def get_id(self):
         return self.staff_id
-    
+ 
     def check_password(self, password):
         return check_password_hash(self.staff_password, password)
 
     contactdetails = db.relationship("ContactDetails", back_populates="staff", uselist=False)
+
+    @property
+    def image_filename(self):
+        return f"{self.staff_id}_{self.staff_name}.pdf"
 
 class ContactDetails(db.Model):
     __tablename__ = "contactdetails"
@@ -72,3 +76,5 @@ class EContactDetails(db.Model):
     )
 
     contactdetails = db.relationship("ContactDetails", back_populates="econtactdetails")
+
+

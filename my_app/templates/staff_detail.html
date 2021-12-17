@@ -8,5 +8,15 @@
             <input type="text" name="staff_dob" value = "{{ current_user.staff_dob }}">
             <button> Update </button>
         </form>
+
+        <br/>
+        <hr/>
+
+        <h3> Update File: </h3>
+        <form action="/staffs/{{ current_user.staff_id }}/image/" method="POST" enctype = "multipart/form-data">
+            <input type="file" name="image">
+            <input type="submit">
+        </form>
+
     </div>
 {% endblock %}
