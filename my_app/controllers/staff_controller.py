@@ -47,7 +47,8 @@ def get_staff(staff_id):
         return abort(403, "You do not have permission to view this staff")
     data = {
         "page_title" : "Staff Detail",
-        "staff" : staff_schema.dump(staff)
+        "staff" : staff_schema.dump(staff),
+        "image_url" : staff.image_filename
     }
     return render_template("staff_detail.html", page_data=data)
 
