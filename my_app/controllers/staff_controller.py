@@ -41,6 +41,7 @@ def create_staff():
 @staffs.route('/staffs/<int:staff_id>/', methods=["GET"])
 @login_required
 def get_staff(staff_id):
+    # staff = Staff.query.order_by(Staff.staff_name).filter_by(creator_id=current_user.pharmacy_id)
     staff = Staff.query.get_or_404(staff_id)
     if current_user.pharmacy_id != staff.creator_id:
         return abort(403, "You do not have permission to view this staff")
