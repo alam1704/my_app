@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: f95708c40a40
+Revision ID: ffb5a9f9dad0
 Revises: 
-Create Date: 2021-12-17 18:53:55.131388
+Create Date: 2021-12-18 12:24:57.619321
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f95708c40a40'
+revision = 'ffb5a9f9dad0'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,15 +32,18 @@ def upgrade():
     sa.Column('staff_name', sa.String(length=100), nullable=False),
     sa.Column('staff_email', sa.String(length=100), nullable=False),
     sa.Column('staff_dob', sa.String(length=100), nullable=False),
+    sa.Column('creator_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['creator_id'], ['pharmacy.pharmacy_id'], ),
     sa.PrimaryKeyConstraint('staff_id'),
     sa.UniqueConstraint('staff_email'),
     sa.UniqueConstraint('staff_name')
     )
     op.create_table('certificates',
     sa.Column('certificate_id', sa.Integer(), nullable=False),
-    sa.Column('staff_id', sa.Integer(), nullable=False),
+    sa.Column('staff_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['staff_id'], ['staff.staff_id'], ),
-    sa.PrimaryKeyConstraint('certificate_id')
+    sa.PrimaryKeyConstraint('certificate_id'),
+    sa.UniqueConstraint('staff_id')
     )
     op.create_table('contactdetails',
     sa.Column('contactdetails_id', sa.Integer(), nullable=False),

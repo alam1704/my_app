@@ -18,7 +18,7 @@
 
     <br><br>
 
-    <img src="{{ page_data.image }}" style="width: 250px">
+    <a href="../../static/{{ page_data.staff.staff_id }}_{{ page_data.staff.staff_name }}.pdf">View Certificate</a>
 
     <h3> Update File: </h3>
     <form action="/staffs/{{ page_data.staff.staff_id }}/image/" method="POST" enctype = "multipart/form-data">
