@@ -29,7 +29,30 @@ class ContactDetails(db.Model):
         primary_key=True
     )
 
-    # Add other attributes here
+    contactdetails_phone = db.Column(
+        db.String(20),
+        nullable=True
+    )
+
+    contactdetails_unitno = db.Column(
+        db.Integer,
+        nullable=True
+    )
+
+    contactdetails_stadd = db.Column(
+        db.String(200),
+        nullable=True
+    )
+
+    contactdetails_postcode = db.Column(
+        db.Integer,
+        nullable=True
+    )
+
+    contactdetails_city = db.Column(
+        db.String(100),
+        nullable=True
+    )
 
     staff_id = db.Column(
         db.Integer,
@@ -48,7 +71,15 @@ class EContactDetails(db.Model):
         primary_key=True
     )
 
-    # add other attributes here
+    econtactdetails_name= db.Column(
+        db.String(100),
+        nullable=True
+    )
+
+    econtactdetails_phone = db.Column(
+        db.String(20),
+        nullable=True
+    )
 
     contactdetails_id = db.Column(
         db.Integer,
@@ -66,11 +97,13 @@ class Certificates(db.Model):
         primary_key=True
     )
 
-    # add other attributes for certificates here
+    certificate_url = db.Column(
+        db.String(200),
+        nullable=True
+    )
 
     staff_id = db.Column(
         db.Integer,
         db.ForeignKey("staff.staff_id"),
         unique=True
     )
-
