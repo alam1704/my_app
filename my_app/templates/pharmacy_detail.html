@@ -13,10 +13,8 @@
 
         <br/>
         <hr/>
-        <p>
-            Pharmacy is admin: {{ current_user.is_admin }}
-        </p>
-
+        <p>Pharmacy is admin: {{ current_user.is_admin }}</p>
+        <p>Total salary at {{ current_user.pharmacy_name }}: {{ page_data.salary }}</p>
         <br><br>
         <h3>
             Enrolled Staffs:
@@ -42,6 +40,9 @@
                     </td>
                     <td>
                         {{ staff.staff_dob }}
+                    </td>
+                    <td>
+                        {{ staff.staff_salary }}
                     </td>
                 </tr>
             </tbody>

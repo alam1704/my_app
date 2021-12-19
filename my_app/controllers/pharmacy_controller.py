@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, abort, flash
 from main import db, lm
+from sqlalchemy import func
 from models.pharmacies import Pharmacy
 from models.staffs import Staff
 from flask_login import login_user, logout_user, login_required, current_user
@@ -34,7 +35,8 @@ def get_pharmacy_member():
     if request.method == "GET":
         data = {
             "page_title":"Your Account details",
-            "staffs" : staffs_schema.dump(staff)
+            "staffs" : staffs_schema.dump(staff),
+            "salary": db.session.query(func.sum(Staff.staff_salary)).filter(Staff.creator_id==current_user.pharmacy_id).scalar()
         }
         return render_template("pharmacy_detail.html", page_data=data)
     else:
