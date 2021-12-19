@@ -44,7 +44,8 @@ def seed_db():
             staff = Staff(
                 staff_name = fake.name(),
                 staff_email = fake.email(),
-                staff_dob = fake.date_of_birth()
+                staff_dob = fake.date_of_birth(),
+                staff_salary= fake.random_int(min=0, max=999999)
             )
             db.session.add(staff)
     db.session.commit()

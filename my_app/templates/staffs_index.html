@@ -7,9 +7,10 @@
         <h2>Add New Staff Here</h2>
         <div>
             <form action="/staffs/" method="POST">
-                <input type="text" name="staff_name" placeholder="StaffName...">
+                <input type="text" name="staff_name" placeholder="Staff Name...">
                 <input type="text" name="staff_email" placeholder="Staff Email...">
                 <input type="text" name="staff_dob" placeholder="YYYY-MM-DD...">
+                <input type="number" name="staff_salary" placeholder="Staff Salary">
                 <button>Add</button>
             </form>
         </div>
@@ -24,6 +25,7 @@
                 <th>Staff Name</th>
                 <th>Staff Email</th>
                 <th>Staff Date of Birth</th>
+                <th>Staff Salary</th>
             </tr>
         </thead>
         
@@ -38,6 +40,9 @@
                 </td>
                 <td>
                     {{ staff.staff_dob }}
+                </td>
+                <td>
+                    {{ staff.staff_salary }}
                 </td>
             </tr>
         </tbody>

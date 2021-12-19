@@ -9,6 +9,7 @@ class Staff(db.Model):
     staff_name = db.Column(db.String(100), unique=True, nullable=False)
     staff_email = db.Column(db.String(100), unique=True, nullable=False)
     staff_dob = db.Column(db.String(100), nullable=False)
+    staff_salary = db.Column(db.Integer, nullable=False)
     creator_id = db.Column(
         db.Integer,
         db.ForeignKey("pharmacy.pharmacy_id")

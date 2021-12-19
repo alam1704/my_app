@@ -5,14 +5,16 @@
     <p> Staff ID: {{ page_data.staff.staff_id }}</p>
     <p> Staff Email: {{ page_data.staff.staff_email }}</p>
     <p> Staff DOB: {{ page_data.staff.staff_dob }}</p>
+    <p> Staff Salary: {{ page_data.staff.staff_salary }}</p>
     <p> Creator: {{ page_data.staff.creator.pharmacy_name }} ({{ page_data.staff.creator.pharmacy_email }}) </p>
     <br><br>
 
     <h3>Update Staff Info:</h3>
     <form action='/staffs/{{ page_data.staff.staff_id }}/', method ="POST">
-        <input type="text" name="staff_name" value="{{ page_data.staff.staff_name }}"/>
-        <input type="text" name="staff_email" value="{{ page_data.staff.staff_email }}"/>
-        <input type="text" name="staff_dob" value="{{ page_data.staff.staff_dob }}"/>
+        <input type="text" name="staff_name" value="New staff name..."/>
+        <input type="text" name="staff_email" value="New staff email..."/>
+        <input type="text" name="staff_dob" value="New staff dob..."/>
+        <input type="number" name="staff_salary" value="New staff salary..."/>
         <button>Update</button>
     </form>
 
