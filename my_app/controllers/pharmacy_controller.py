@@ -23,7 +23,7 @@ pharmacies = Blueprint('pharmacies', __name__)
 def get_pharmacies():
     data = {
         "page_title": "Pharmacies Index",
-        "pharmacies": pharmacies_schema.dump(Pharmacy.query.all())
+        "pharmacies": pharmacies_schema.dump(Pharmacy.query.order_by(Pharmacy.pharmacy_name).all())
     }
     return render_template("pharmacies_index.html", page_data=data)
 
