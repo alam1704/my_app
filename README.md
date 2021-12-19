@@ -99,6 +99,7 @@ The pharmacist should be able to do the following:
     - Current and Previous certicicates uploaded
 - Add/edit/remove/view the pharmacies they are working in
     - Current and Previous certicicates uploaded
+- As an aggregation feature; have also added total salary of the pharmacy
 
 - Make their profile private from everyone
 - Enable Two Factor Authentication
