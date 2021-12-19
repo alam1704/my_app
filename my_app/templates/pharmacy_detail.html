@@ -21,11 +21,31 @@
         <h3>
             Enrolled Staffs:
         </h3>
-        <ul>
-            {% for staff in current_user.enrolled_staffs %}
-                <li><a href="/staffs/{{ staff.staff_id }}/">{{ staff.staff_name }}</a></li>
+        <table class="table table-striped table-boredered">
+            <thead>
+                <tr>
+                    <th>Staff Name</th>
+                    <th>Staff Email</th>
+                    <th>Staff Date of Birth</th>
+                </tr>
+            </thead>
+            
+            {% for staff in page_data.staffs %}
+            <tbody>
+                <tr>
+                    <td>
+                        <a href="/staffs/{{ staff.staff_id }}/">{{ staff.staff_name }}</a>
+                    </td>
+                    <td>
+                        {{ staff.staff_email }}
+                    </td>
+                    <td>
+                        {{ staff.staff_dob }}
+                    </td>
+                </tr>
+            </tbody>
             {% endfor %}
-        </ul>
+        </table> 
 
     </div>
 {% endblock %}

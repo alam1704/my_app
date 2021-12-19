@@ -1,9 +1,12 @@
 from flask import Blueprint, request, render_template, redirect, url_for, abort, flash
 from main import db, lm
 from models.pharmacies import Pharmacy
+from models.staffs import Staff
 from flask_login import login_user, logout_user, login_required, current_user
 from marshmallow import ValidationError
 from schemas.pharmacy_schema import pharmacies_schema, pharmacy_schema, pharmacy_update_schema
+from schemas.staff_schema import staffs_schema, staff_schema
+
 
 @lm.user_loader
 def load_user(pharmacy):
@@ -27,9 +30,11 @@ def get_pharmacies():
 @pharmacies.route('/pharmacies/account/', methods=["GET", "POST"])
 @login_required
 def get_pharmacy_member():
+    staff = Staff.query.order_by(Staff.staff_name).filter_by(creator_id=current_user.pharmacy_id)
     if request.method == "GET":
         data = {
-            "page_title":"Your Account details"
+            "page_title":"Your Account details",
+            "staffs" : staffs_schema.dump(staff)
         }
         return render_template("pharmacy_detail.html", page_data=data)
     else:
